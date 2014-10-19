@@ -13,6 +13,10 @@ Piece::Piece(int i,int j){
   this->posj = j;
 }
 
+Piece::Piece(){
+
+}
+
 std::vector< std::vector<Color> > Piece::getPieceShape(){
   std::vector< std::vector<Color> > p;
   for(int i=0;i<2;i++){

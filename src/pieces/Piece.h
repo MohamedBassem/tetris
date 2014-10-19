@@ -12,5 +12,6 @@ class Piece{
     Color color;
 
     Piece(int i,int j);
+    Piece();
     std::vector< std::vector<Color> > getPieceShape();
 };

@@ -27,7 +27,3 @@ std::vector< std::vector<Color> > Piece::getPieceShape(){
   }
   return p;
 }
-
-int main(){
-  cout << ":*" << endl;
-}

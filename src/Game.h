@@ -4,7 +4,7 @@ class Game{
   static const int width = 10;
   static const int height = 16;
   
-  int score = 0;
+  int score;
   Color board[height][width];
 
   Piece currentPiece;
@@ -12,6 +12,7 @@ class Game{
   
   public:
   Game();
+  std::vector< std::vector<Color> > getBoard();
   void stepDown();
   void stepRight();
   void stepLeft();
@@ -27,5 +28,6 @@ class Game{
   bool checkDown();
   bool inBound(int i,int j);
   Piece getRandomPiece();
+  void fixCurrentPiece();
 
 };

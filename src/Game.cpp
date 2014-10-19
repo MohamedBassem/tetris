@@ -1,8 +1,9 @@
 #include "Game.h"
 
-//Game::Game(){
-  ////currentPiece = getRandomPiece();
-//}
+Game::Game(){
+  score = 0;
+  currentPiece = getRandomPiece();
+}
 
 void Game::stepRight(){
   std::vector< std::vector<Color> > curr = currentPiece.getPieceShape();
@@ -21,7 +22,19 @@ void Game::stepDown(){
   if( checkDown() ){
     currentPiece.posi++;
   }else{
+    fixCurrentPiece();
     currentPiece = getRandomPiece();
+  }
+}
+
+void Game::fixCurrentPiece(){
+  std::vector< std::vector<Color> > curr = currentPiece.getPieceShape();
+  for(int i=0;i<(int)curr.size();i++){
+    for(int j=0;j<(int)curr[i].size();j++){
+      if( !Color::isEmpty(curr[i][j]) ){
+        board[currentPiece.posi + i][currentPiece.posj + j] = curr[i][j];
+      }
+    }
   }
 }
 
@@ -40,7 +53,18 @@ bool Game::checkDown(){
   return can;
 }
 
-Piece getRandomPiece(){
+std::vector< std::vector<Color> > Game::getBoard(){
+  std::vector< std::vector<Color> > ret;
+  ret.resize(height);
+  for(int i=0;i<height;i++){
+    ret[i].resize(width);
+    for(int j=0;j<width;j++)
+      ret[i][j] = board[i][j];
+  }
+  return ret;
+}
+
+Piece Game::getRandomPiece(){
   return Piece(0,5);
 }
 

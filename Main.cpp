@@ -32,7 +32,7 @@ void Display(){
   for(int i=0;i<(int)board.size();i++){
     for(int j=0;j<(int)board[0].size();j++){
       if( Color::isEmpty(board[i][j]) ){
-        glColor3d(0,0,0);
+        glColor3d(0.2,0.2,0.2);
       }else{
         glColor3d(board[i][j].r/255.0,board[i][j].g/255.0,board[i][j].b/255.0);
       }
@@ -67,7 +67,7 @@ void Display(){
 
   if( !isStarted ){
     glPushMatrix();
-    glColor4d(0.5,0.5,0.5,0.1);
+    glColor4d(0.5,0.5,0.5,0.9);
     glBegin(GL_QUADS);
     glVertex3d(0, 0, 0);
     glVertex3d(0, windowHeight, 0);

@@ -51,6 +51,13 @@ void Display(){
 
   if( isPaused ){
     glPushMatrix();
+    glColor4d(0.5,0.5,0.5,0.9);
+    glBegin(GL_QUADS);
+    glVertex3d(0, 0, 0);
+    glVertex3d(0, windowHeight, 0);
+    glVertex3d(windowWidth, windowHeight, 0);
+    glVertex3d(windowWidth, 0, 0);
+    glEnd(); 
     glColor3d(1,1,1);
     string text = "Paused";
     print(windowWidth/2,windowHeight/2, (char *)text.c_str());
@@ -59,6 +66,13 @@ void Display(){
 
   if( !isStarted ){
     glPushMatrix();
+    glColor4d(0.5,0.5,0.5,0.1);
+    glBegin(GL_QUADS);
+    glVertex3d(0, 0, 0);
+    glVertex3d(0, windowHeight, 0);
+    glVertex3d(windowWidth, windowHeight, 0);
+    glVertex3d(windowWidth, 0, 0);
+    glEnd(); 
     glColor3d(1,1,1);
     string text = "Press S to start the game!";
     print(windowWidth/2,windowHeight/2, (char *)text.c_str());

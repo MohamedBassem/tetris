@@ -1,3 +1,5 @@
+#ifndef _Game
+#define _Game
 #include "pieces/Piece.h"
 
 class Game{
@@ -31,3 +33,4 @@ class Game{
   void fixCurrentPiece();
 
 };
+#endif

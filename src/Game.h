@@ -16,7 +16,7 @@ class Game{
   int score;
   Color board[height][width];
 
-  Piece currentPiece;
+  Piece* currentPiece;
 
   
   public:
@@ -36,7 +36,7 @@ class Game{
   private:
   bool checkDown();
   bool inBound(int i,int j);
-  Piece getRandomPiece();
+  Piece* getRandomPiece();
   void fixCurrentPiece();
 
 };

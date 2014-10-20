@@ -1,26 +1,76 @@
 #include "Game.h"
+#include <cstdio>
+#include <stdlib.h>
 
 Game::Game(){
   score = 0;
   currentPiece = getRandomPiece();
+  for(int i=0;i<height;i++)
+    for(int j=0;j<width;j++)
+      board[i][j] = Color(-1,-1,-1);
 }
 
 void Game::stepRight(){
-  std::vector< std::vector<Color> > curr = currentPiece.getPieceShape();
-  if( inBound(currentPiece.posi, currentPiece.posj + curr[0].size() + 1) ){
-    currentPiece.posj++;
+  std::vector< std::vector<Color> > curr = currentPiece->getPieceShape();
+  if( inBound(currentPiece->posi, currentPiece->posj + curr[0].size()) ){
+    currentPiece->posj++;
   }
 }
 
+
+
 void Game::stepLeft(){
-  if(inBound( currentPiece.posi, currentPiece.posj - 1) ){
-    currentPiece.posj--;
+  if(inBound( currentPiece->posi, currentPiece->posj - 1) ){
+    currentPiece->posj--;
+  }
+}
+
+void Game::rotateRight(){
+  currentPiece->rotateClockwise();
+  std::vector< std::vector<Color> > curr = currentPiece->getPieceShape();
+  if( !inBound(currentPiece->posi, currentPiece->posj + curr[0].size() + 1) ){
+    currentPiece->rotateAntiClockwise();
+    return;
+  }
+
+  bool can = true;
+  for(int i=0;i<(int)curr.size();i++){
+    for(int j=0;j<(int)curr[i].size();j++){
+      int newI = currentPiece->posi + i;
+      int newJ = currentPiece->posj + j;
+      can &= inBound(newI, newJ) && Color::isEmpty(board[newI][newJ]);
+    }
+  }
+  if(!can){
+    currentPiece->rotateAntiClockwise();
+  }
+}
+
+
+void Game::rotateLeft(){
+  currentPiece->rotateAntiClockwise();
+  std::vector< std::vector<Color> > curr = currentPiece->getPieceShape();
+  if( !inBound(currentPiece->posi, currentPiece->posj + curr[0].size() + 1) ){
+    currentPiece->rotateClockwise();
+    return;
+  }
+
+  bool can = true;
+  for(int i=0;i<(int)curr.size();i++){
+    for(int j=0;j<(int)curr[i].size();j++){
+      int newI = currentPiece->posi + i;
+      int newJ = currentPiece->posj + j;
+      can &= inBound(newI, newJ) && Color::isEmpty(board[newI][newJ]);
+    }
+  }
+  if(!can){
+    currentPiece->rotateClockwise();
   }
 }
 
 void Game::stepDown(){
   if( checkDown() ){
-    currentPiece.posi++;
+    currentPiece->posi++;
   }else{
     fixCurrentPiece();
     currentPiece = getRandomPiece();
@@ -28,24 +78,24 @@ void Game::stepDown(){
 }
 
 void Game::fixCurrentPiece(){
-  std::vector< std::vector<Color> > curr = currentPiece.getPieceShape();
+  std::vector< std::vector<Color> > curr = currentPiece->getPieceShape();
   for(int i=0;i<(int)curr.size();i++){
     for(int j=0;j<(int)curr[i].size();j++){
       if( !Color::isEmpty(curr[i][j]) ){
-        board[currentPiece.posi + i][currentPiece.posj + j] = curr[i][j];
+        board[currentPiece->posi + i][currentPiece->posj + j] = curr[i][j];
       }
     }
   }
 }
 
 bool Game::checkDown(){
-  std::vector< std::vector<Color> > curr = currentPiece.getPieceShape();
+  std::vector< std::vector<Color> > curr = currentPiece->getPieceShape();
   bool can = true;
   for(int i=0;i<(int)curr.size();i++){
     for(int j=0;j<(int)curr[i].size();j++){
       if( i+1 == (int) curr.size() || Color::isEmpty(curr[i+1][j]) ){
-        int newI = currentPiece.posi + i + 1;
-        int newJ = currentPiece.posj + j;
+        int newI = currentPiece->posi + i + 1;
+        int newJ = currentPiece->posj + j;
         can &= inBound(newI, newJ) && Color::isEmpty(board[newI][newJ]);
       }
     }
@@ -58,14 +108,34 @@ std::vector< std::vector<Color> > Game::getBoard(){
   ret.resize(height);
   for(int i=0;i<height;i++){
     ret[i].resize(width);
-    for(int j=0;j<width;j++)
+    for(int j=0;j<width;j++){
       ret[i][j] = board[i][j];
+    }
+  }
+  std::vector< std::vector<Color> > curr = currentPiece->getPieceShape();
+  for(int i=0;i<(int)curr.size();i++){
+    for(int j=0;j<(int)curr[i].size();j++){
+      if( !Color::isEmpty(curr[i][j]) ){
+        ret[currentPiece->posi + i][currentPiece->posj + j] = curr[i][j];
+      }
+    }
   }
   return ret;
 }
 
-Piece Game::getRandomPiece(){
-  return Piece(0,5);
+Piece* Game::getRandomPiece(){
+  int pieceType = rand()%6;
+  int starti=0,startj=width/2;
+  switch(pieceType){
+    case 0: return new Piece0(starti,startj);
+    case 1: return new Piece1(starti,startj);
+    case 2: return new Piece2(starti,startj);
+    case 3: return new Piece3(starti,startj);
+    case 4: return new Piece4(starti,startj);
+    case 5: return new Piece5(starti,startj);
+    case 6: return new Piece6(starti,startj);
+  }
+  return new Piece0(0,5);
 }
 
 bool Game::inBound(int i,int j){

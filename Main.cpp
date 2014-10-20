@@ -143,13 +143,13 @@ void KeyboardInput(unsigned char thekey,int mouseX,int mouseY){
 }
 
 void print(int x, int y, char *string){
-	int len, i;
-	glRasterPos2f(x, y);
-	len = (int) strlen(string);
-	for (i = 0; i < len; i++) 
-	{
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,string[i]);
-	}
+  int len, i;
+  int newX = (windowWidth - strlen(string)*10)/2;
+  glRasterPos2f(newX, y);
+  len = (int) strlen(string);
+  for (i = 0; i < len; i++){
+    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,string[i]);
+  }
 }
 
 int main(int argc,char** argr){

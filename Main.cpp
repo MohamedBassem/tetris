@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <time.h>
 #include <stdlib.h>
+#include <sstream>
 #include <GL/glut.h>
 
 using namespace std;
@@ -28,6 +29,7 @@ void Display(){
   glClear(GL_COLOR_BUFFER_BIT);
   glPushMatrix();
   
+  // Print Board
   vector< vector<Color> > board = game.getBoard();
   for(int i=0;i<(int)board.size();i++){
     for(int j=0;j<(int)board[0].size();j++){
@@ -48,6 +50,13 @@ void Display(){
       glPopMatrix();
     }
   }
+
+  // Print Score
+  stringstream ss;
+  ss << "Score : " << game.getScore();
+  glColor3d(1,1,1);
+  print( windowWidth - ss.str().size()*10, windowHeight - 25, (char *)ss.str().c_str() );
+  
 
   if( isPaused ){
     glPushMatrix();

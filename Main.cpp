@@ -58,9 +58,10 @@ void Display(){
     glVertex3d(windowWidth, windowHeight, 0);
     glVertex3d(windowWidth, 0, 0);
     glEnd(); 
-    glColor3d(1,1,1);
+    glColor3d(0,0,0);
     string text = "Paused";
-    print(windowWidth/2,windowHeight/2, (char *)text.c_str());
+    int newX = (windowWidth - (text).size()*10)/2;
+    print(newX,windowHeight/2, (char *)text.c_str());
     glPopMatrix();
   }
 
@@ -73,9 +74,10 @@ void Display(){
     glVertex3d(windowWidth, windowHeight, 0);
     glVertex3d(windowWidth, 0, 0);
     glEnd(); 
-    glColor3d(1,1,1);
+    glColor3d(0,0,0);
     string text = "Press S to start the game!";
-    print(windowWidth/2,windowHeight/2, (char *)text.c_str());
+    int newX = (windowWidth - (text).size()*10)/2;
+    print(newX,windowHeight/2, (char *)text.c_str());
     glPopMatrix();
   }
 
@@ -144,8 +146,7 @@ void KeyboardInput(unsigned char thekey,int mouseX,int mouseY){
 
 void print(int x, int y, char *string){
   int len, i;
-  int newX = (windowWidth - strlen(string)*10)/2;
-  glRasterPos2f(newX, y);
+  glRasterPos2f(x, y);
   len = (int) strlen(string);
   for (i = 0; i < len; i++){
     glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,string[i]);

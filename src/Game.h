@@ -1,6 +1,13 @@
 #ifndef _Game
 #define _Game
 #include "pieces/Piece.h"
+#include "pieces/Piece0.h"
+#include "pieces/Piece1.h"
+#include "pieces/Piece2.h"
+#include "pieces/Piece3.h"
+#include "pieces/Piece4.h"
+#include "pieces/Piece5.h"
+#include "pieces/Piece6.h"
 
 class Game{
   static const int width = 10;

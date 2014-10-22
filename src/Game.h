@@ -38,6 +38,7 @@ class Game{
   bool inBound(int i,int j);
   Piece* getRandomPiece();
   void fixCurrentPiece();
+  void removeFullRows();
 
 };
 #endif

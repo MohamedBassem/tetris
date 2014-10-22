@@ -71,6 +71,7 @@ void Game::stepDown(){
     currentPiece->posi++;
   }else{
     fixCurrentPiece();
+    removeFullRows();
     currentPiece = getRandomPiece();
   }
 }
@@ -120,6 +121,23 @@ std::vector< std::vector<Color> > Game::getBoard(){
     }
   }
   return ret;
+}
+
+void Game::removeFullRows(){
+  int removed = 0;
+  for(int i=height-1;i>=0;i--){
+    bool full = true;
+    for(int j=0;j<width;j++)
+      full &= !Color::isEmpty(board[i][j]);
+    if(full){
+      removed ++;
+      for(int j=i;j>0;j--)
+        for(int k=0;k<width;k++)
+          board[j][k] = board[j-1][k];
+      i++;
+    }
+  }
+  score += removed*10;
 }
 
 Piece* Game::getRandomPiece(){

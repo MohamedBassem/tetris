@@ -110,8 +110,8 @@ void drawPauseSceen(string text){
 }
 
 void anim(int a){
-  glutTimerFunc(1000,anim,0);
   if( isStarted && !isPaused && !game.isGameOver() ){
+    glutTimerFunc(1000,anim,0);
     game.stepDown();
     glutPostRedisplay();
   }

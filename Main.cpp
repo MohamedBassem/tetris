@@ -15,6 +15,8 @@ const int blockSize = 40;
 const int windowWidth = blockSize*10;
 const int windowHeight = blockSize*15;
 
+const int timeDelay = 700;
+
 bool isPaused = false;
 bool isStarted = false;
 Game game;
@@ -111,7 +113,7 @@ void drawPauseSceen(string text){
 
 void anim(int a){
   if( isStarted && !isPaused && !game.isGameOver() ){
-    glutTimerFunc(1000,anim,0);
+    glutTimerFunc(timeDelay,anim,0);
     game.stepDown();
     glutPostRedisplay();
   }
@@ -130,6 +132,7 @@ void specialInput(int thekey,int mouseX,int mouseY){
       game.stepLeft();
       break;
   }
+  glutPostRedisplay();
 }
 
 

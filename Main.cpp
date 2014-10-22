@@ -17,7 +17,7 @@ const int windowHeight = blockSize*15;
 
 bool isPaused = false;
 bool isStarted = false;
-Game game = Game();
+Game game;
 
 void Display(void);
 void specialInput(int,int,int);
@@ -165,6 +165,7 @@ void print(int x, int y, char *string){
 int main(int argc,char** argr){
   srand (time(NULL));
 
+  game = Game();
   glutInit(&argc,argr);
   glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
   glutInitWindowSize(windowWidth,windowHeight);

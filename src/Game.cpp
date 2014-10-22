@@ -17,8 +17,6 @@ void Game::stepRight(){
   }
 }
 
-
-
 void Game::stepLeft(){
   if(inBound( currentPiece->posi, currentPiece->posj - 1) ){
     currentPiece->posj--;

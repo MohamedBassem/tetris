@@ -94,11 +94,13 @@ void Display(){
   glFlush();
 }
 
-void anim(){
+void anim(int a){
   if( isStarted && !isPaused ){
     game.stepDown();
     glutPostRedisplay();
+    glutTimerFunc(1000,anim,0);
   }
+
 }
 
 void specialInput(int thekey,int mouseX,int mouseY){
@@ -122,6 +124,7 @@ void KeyboardInput(unsigned char thekey,int mouseX,int mouseY){
     if( isPaused ){
       if( thekey == 'p' ){
         isPaused = false;
+        anim(0);
       }
     }else{
       switch(thekey){
@@ -148,6 +151,7 @@ void KeyboardInput(unsigned char thekey,int mouseX,int mouseY){
   }else{
     if( thekey == 's' ){
       isStarted = true;
+      anim(0);
     }
   }
   glutPostRedisplay();
@@ -172,7 +176,7 @@ int main(int argc,char** argr){
   glutInitWindowPosition(50,50);
   glutCreateWindow("Tetris");
   glutDisplayFunc(Display);
-  glutIdleFunc(anim);
+  glutTimerFunc(1,anim,0);
   glutSpecialFunc(specialInput);
   glutKeyboardFunc(KeyboardInput);
   glClearColor(0.0f,0.0f,0.2f,0.0f);

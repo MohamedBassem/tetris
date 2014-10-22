@@ -3,6 +3,7 @@
 Piece5::Piece5(int i,int j){
   this->posi = i;
   this->posj = j;
+  this->orientation = 0;
   color = Color(160,0,240);
 }
 

@@ -190,3 +190,11 @@ bool Game::isIntersect(){
   }
   return intersect;
 }
+
+int Game::getWidth(){
+  return width;
+}
+
+int Game::getHight(){
+  return height;
+}

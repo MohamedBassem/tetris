@@ -57,7 +57,22 @@ void Display(){
   ss << "Score : " << game.getScore();
   glColor3d(1,1,1);
   print( windowWidth - ss.str().size()*10, windowHeight - 25, (char *)ss.str().c_str() );
-  
+
+  // Draw Grid
+  glColor3d(0.0, 0.0, 0.0);
+  for(int i=1;i<game.getWidth();i++){
+    glBegin(GL_LINES);
+    glVertex3d(i*blockSize, 0, 0);
+    glVertex3d(i*blockSize, windowHeight, 0);
+    glEnd();
+  }
+
+  for(int i=1;i<game.getHight();i++){
+    glBegin(GL_LINES);
+    glVertex3d(0, i*blockSize, 0);
+    glVertex3d(windowWidth, i*blockSize, 0);
+    glEnd();
+  }
 
   if( isPaused ){
     drawPauseSceen("Paused");

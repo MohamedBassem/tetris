@@ -33,6 +33,8 @@ class Game{
   int getScore();
   bool isIntersect();
   bool isGameOver();
+  int getWidth();
+  int getHight();
 
   private:
   bool checkDown();

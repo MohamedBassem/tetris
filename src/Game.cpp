@@ -8,22 +8,30 @@ Game::Game(){
   for(int i=0;i<height;i++)
     for(int j=0;j<width;j++)
       board[i][j] = Color(-1,-1,-1);
+  _isGameOver = false;
 }
 
 void Game::stepRight(){
+  if( isGameOver() ) return;
   std::vector< std::vector<Color> > curr = currentPiece->getPieceShape();
   if( inBound(currentPiece->posi, currentPiece->posj + curr[0].size()) ){
     currentPiece->posj++;
+    if( isIntersect() )
+      currentPiece->posj--;
   }
 }
 
 void Game::stepLeft(){
+  if( isGameOver() ) return;
   if(inBound( currentPiece->posi, currentPiece->posj - 1) ){
     currentPiece->posj--;
+    if( isIntersect() )
+      currentPiece->posj++;
   }
 }
 
 void Game::rotateRight(){
+  if( isGameOver() ) return;
   currentPiece->rotateClockwise();
   std::vector< std::vector<Color> > curr = currentPiece->getPieceShape();
   if( !inBound(currentPiece->posi, currentPiece->posj + curr[0].size() + 1) ){
@@ -46,6 +54,7 @@ void Game::rotateRight(){
 
 
 void Game::rotateLeft(){
+  if( isGameOver() ) return;
   currentPiece->rotateAntiClockwise();
   std::vector< std::vector<Color> > curr = currentPiece->getPieceShape();
   if( !inBound(currentPiece->posi, currentPiece->posj + curr[0].size() + 1) ){
@@ -67,12 +76,14 @@ void Game::rotateLeft(){
 }
 
 void Game::stepDown(){
+  if( isGameOver() ) return;
   if( checkDown() ){
     currentPiece->posi++;
   }else{
     fixCurrentPiece();
     removeFullRows();
     currentPiece = getRandomPiece();
+    _isGameOver = !checkDown();
   }
 }
 
@@ -161,4 +172,21 @@ bool Game::inBound(int i,int j){
 
 int Game::getScore(){
   return score;
+}
+
+bool Game::isGameOver(){
+  return _isGameOver;
+}
+
+bool Game::isIntersect(){
+  std::vector< std::vector<Color> > curr = currentPiece->getPieceShape();
+  bool intersect = false;
+  for(int i=0;i<(int)curr.size();i++){
+    for(int j=0;j<(int)curr[i].size();j++){
+      int newI = currentPiece->posi + i;
+      int newJ = currentPiece->posj + j;
+      intersect |= (!Color::isEmpty(curr[i][j]) && !Color::isEmpty(board[newI][newJ]));
+    }
+  }
+  return intersect;
 }

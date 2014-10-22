@@ -15,6 +15,7 @@ class Game{
   
   int score;
   Color board[height][width];
+  bool _isGameOver;
 
   Piece* currentPiece;
 
@@ -30,7 +31,7 @@ class Game{
   void rotateRight();
 
   int getScore();
-  
+  bool isIntersect();
   bool isGameOver();
 
   private:

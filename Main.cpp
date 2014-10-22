@@ -22,8 +22,9 @@ Game game;
 void Display(void);
 void specialInput(int,int,int);
 void KeyboardInput(unsigned char,int,int);
-void anim(int x);
+void anim(int);
 void print(int,int,char *);
+void drawPauseSceen(string);
 
 void Display(){
   glClear(GL_COLOR_BUFFER_BIT);
@@ -59,48 +60,46 @@ void Display(){
   
 
   if( isPaused ){
-    glPushMatrix();
-    glColor4d(0.5,0.5,0.5,0.9);
-    glBegin(GL_QUADS);
-    glVertex3d(0, 0, 0);
-    glVertex3d(0, windowHeight, 0);
-    glVertex3d(windowWidth, windowHeight, 0);
-    glVertex3d(windowWidth, 0, 0);
-    glEnd(); 
-    glColor3d(0,0,0);
-    string text = "Paused";
-    int newX = (windowWidth - (text).size()*10)/2;
-    print(newX,windowHeight/2, (char *)text.c_str());
-    glPopMatrix();
+    drawPauseSceen("Paused");
   }
 
   if( !isStarted ){
-    glPushMatrix();
-    glColor4d(0.5,0.5,0.5,0.9);
-    glBegin(GL_QUADS);
-    glVertex3d(0, 0, 0);
-    glVertex3d(0, windowHeight, 0);
-    glVertex3d(windowWidth, windowHeight, 0);
-    glVertex3d(windowWidth, 0, 0);
-    glEnd(); 
-    glColor3d(0,0,0);
-    string text = "Press S to start the game!";
-    int newX = (windowWidth - (text).size()*10)/2;
-    print(newX,windowHeight/2, (char *)text.c_str());
-    glPopMatrix();
+    drawPauseSceen("Press S to start the game!");
+  }
+
+  if( game.isGameOver() ){
+    stringstream ss;
+    ss << "Your score is ";
+    ss << game.getScore();
+    ss << "! Press R to play again";
+    drawPauseSceen(ss.str());
   }
 
   glPopMatrix();
   glFlush();
 }
 
+void drawPauseSceen(string text){
+    glPushMatrix();
+    glColor4d(0.5,0.5,0.5,0.9);
+    glBegin(GL_QUADS);
+    glVertex3d(0, 0, 0);
+    glVertex3d(0, windowHeight, 0);
+    glVertex3d(windowWidth, windowHeight, 0);
+    glVertex3d(windowWidth, 0, 0);
+    glEnd(); 
+    glColor3d(0,0,0);
+    int newX = (windowWidth - (text).size()*10)/2;
+    print(newX,windowHeight/2, (char *)text.c_str());
+    glPopMatrix();
+}
+
 void anim(int a){
-  if( isStarted && !isPaused ){
+  glutTimerFunc(1000,anim,0);
+  if( isStarted && !isPaused && !game.isGameOver() ){
     game.stepDown();
     glutPostRedisplay();
-    glutTimerFunc(1000,anim,0);
   }
-
 }
 
 void specialInput(int thekey,int mouseX,int mouseY){
@@ -146,6 +145,12 @@ void KeyboardInput(unsigned char thekey,int mouseX,int mouseY){
         case 'j':
           game.stepDown();
           break;
+        case 'r':
+          if(game.isGameOver()){
+            game = Game();
+            anim(0);
+          }
+          break;
       }
     }
   }else{
@@ -176,7 +181,6 @@ int main(int argc,char** argr){
   glutInitWindowPosition(50,50);
   glutCreateWindow("Tetris");
   glutDisplayFunc(Display);
-  glutTimerFunc(1,anim,0);
   glutSpecialFunc(specialInput);
   glutKeyboardFunc(KeyboardInput);
   glClearColor(0.0f,0.0f,0.2f,0.0f);

@@ -110,6 +110,7 @@ std::vector< std::vector<Color> > Game::getBoard(){
       ret[i][j] = board[i][j];
     }
   }
+
   std::vector< std::vector<Color> > curr = currentPiece->getPieceShape();
   for(int i=0;i<(int)curr.size();i++){
     for(int j=0;j<(int)curr[i].size();j++){
@@ -123,7 +124,7 @@ std::vector< std::vector<Color> > Game::getBoard(){
 
 Piece* Game::getRandomPiece(){
   int pieceType = rand()%6;
-  int starti=0,startj=width/2;
+  int starti=1,startj=width/2 - 2;
   switch(pieceType){
     case 0: return new Piece0(starti,startj);
     case 1: return new Piece1(starti,startj);

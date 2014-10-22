@@ -91,7 +91,7 @@ bool Game::checkDown(){
   bool can = true;
   for(int i=0;i<(int)curr.size();i++){
     for(int j=0;j<(int)curr[i].size();j++){
-      if( i+1 == (int) curr.size() || Color::isEmpty(curr[i+1][j]) ){
+      if( !Color::isEmpty(curr[i][j]) && (i+1 == (int) curr.size() || Color::isEmpty(curr[i+1][j])) ){
         int newI = currentPiece->posi + i + 1;
         int newJ = currentPiece->posj + j;
         can &= inBound(newI, newJ) && Color::isEmpty(board[newI][newJ]);

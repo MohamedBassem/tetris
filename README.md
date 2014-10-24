@@ -9,10 +9,10 @@ A tetris game implemented in c++ using OpenGl.
 - R : Restarts the game when the game is over.
 - P : Pauses the game.
 
-*Note* : It supports also vim key bindings h,j & L are mapped to left, down and right respectively.
+*Note* : It supports also vim key bindings. h, j & l are mapped to left, down and right respectively.
 
 ### How to run it
 ```bash
-  $ make
-  $ ./main
+$ make
+$ ./main
 ```
